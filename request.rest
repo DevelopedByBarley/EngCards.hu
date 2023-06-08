@@ -1,0 +1,35 @@
+GET http://localhost:4000/cards
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2MjIxMjQ2LCJleHAiOjE2ODYyMjE4NDZ9.1xHBncFrFRXQ27pkJuyGD4OLqR6wEi2X-UexLMb7u_0
+
+
+###
+POST http://localhost:4000/user/register
+Content-Type: application/json
+
+{
+    "userName": "Jim",
+    "email": "ImJim93@gmail.com",
+    "password": "ImJim12345"
+}
+
+###
+POST http://localhost:4000/user/login
+Content-Type: application/json
+
+{
+    "userName": "Jim",
+    "email": "ImJim93@gmail.com",
+    "password": "ImJim12345"
+}
+
+
+###
+POST http://localhost:4000/user/token
+Content-Type: application/json
+
+{
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNjg2MjIwNTEwLCJleHAiOjE2ODYyMjE0MTB9.ag3mVzxbq7_aBTdy10I_aFGSJvLv9Hw54-dAS64rjSs"
+}
+
+
+
