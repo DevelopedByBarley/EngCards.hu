@@ -7,6 +7,10 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    limit: {
+        type: Number,
+        required: true
+    },
     email: {
         type: String,
         required: true,

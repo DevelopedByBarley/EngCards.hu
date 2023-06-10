@@ -7,7 +7,8 @@ Content-Type: application/json
 {
     "userName": "Jim",
     "email": "ImJim93@gmail.com",
-    "password": "ImJim12345"
+    "password": "ImJim12345",
+    "limit": 5
 }
 
 ###
@@ -40,18 +41,17 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4000/cards
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2Mzk1MDcwLCJleHAiOjE2ODYzOTg2NzB9.oKIXZ8jTqfSIH2-HEThG5RQY7Y3uPfpuPbqOuqObmt4
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODQ5YTIzNDE1NDcyMzEyMmRiNjZlYiIsInVzZXJOYW1lIjoiSmltIiwibGltaXQiOjUsImVtYWlsIjoiSW1KaW05M0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRvL2ZsYi9lWGhmOEZSd0lwWG8xd3hPbnVVZkxyRFR4bnBFTS9FMXNydkZ3SzA5L0YxdFFYNiIsIl9fdiI6MH0sImlhdCI6MTY4NjQxMTk5OCwiZXhwIjoxNjg2NDE1NTk4fQ.IPAWDSD1WaArZWS620Xu77M33FlEKBpF7b5iozUHJ9k
 
 
 ###
 POST http://localhost:4000/cards/new
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2MzkzNjMxLCJleHAiOjE2ODYzOTcyMzF9.gIBQcSYqfLQZ6lsixgqEw7l5aqr8Bip4Uk9wKw1Hsbs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODQ5YTIzNDE1NDcyMzEyMmRiNjZlYiIsInVzZXJOYW1lIjoiSmltIiwibGltaXQiOjUsImVtYWlsIjoiSW1KaW05M0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRvL2ZsYi9lWGhmOEZSd0lwWG8xd3hPbnVVZkxyRFR4bnBFTS9FMXNydkZ3SzA5L0YxdFFYNiIsIl9fdiI6MH0sImlhdCI6MTY4NjQxMTk5OCwiZXhwIjoxNjg2NDE1NTk4fQ.IPAWDSD1WaArZWS620Xu77M33FlEKBpF7b5iozUHJ9k
 
 {
-    "word": "word4",
-    "translate": "szó4"
+    "word": "wor22",
+    "translate": "só222"
 }
 
 ###
