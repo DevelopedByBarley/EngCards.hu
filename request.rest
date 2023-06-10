@@ -1,5 +1,3 @@
-GET http://localhost:4000/cards
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2MjIxMjQ2LCJleHAiOjE2ODYyMjE4NDZ9.1xHBncFrFRXQ27pkJuyGD4OLqR6wEi2X-UexLMb7u_0
 
 
 ###
@@ -30,6 +28,47 @@ Content-Type: application/json
 {
     "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNjg2MjIwNTEwLCJleHAiOjE2ODYyMjE0MTB9.ag3mVzxbq7_aBTdy10I_aFGSJvLv9Hw54-dAS64rjSs"
 }
+
+
+
+
+
+
+
+
+// ---> CARDS SECTION <--------------------------------------------------------------
+
+###
+GET http://localhost:4000/cards
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2Mzk1MDcwLCJleHAiOjE2ODYzOTg2NzB9.oKIXZ8jTqfSIH2-HEThG5RQY7Y3uPfpuPbqOuqObmt4
+
+
+
+###
+POST http://localhost:4000/cards/new
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2MzkzNjMxLCJleHAiOjE2ODYzOTcyMzF9.gIBQcSYqfLQZ6lsixgqEw7l5aqr8Bip4Uk9wKw1Hsbs
+
+{
+    "word": "word4",
+    "translate": "szó4"
+}
+
+###
+GET http://localhost:4000/cards/single/64842cf058d5d31f08d9ab12
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2Mzg1ODc4LCJleHAiOjE2ODYzODk0Nzh9.9nE_mOVXkPeAdnR0pn7-DiZHjdja7ok1t0DsXWSQGl0
+
+
+###
+POST http://localhost:4000/cards/compare/64845d71f8b44c5288c9296d
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODFhODlhNWZiY2I4ZGQxYThmZjhjYiIsInVzZXJOYW1lIjoiSmltIiwiZW1haWwiOiJJbUppbTkzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEpja2kzbUR5TlVvVlg2amdrY0h6S09MeE8vMTI5VlI2Ukx2UTJwdkpVYUpJc0p1LkJwQkFpIiwiX192IjowfSwiaWF0IjoxNjg2Mzk1MDcwLCJleHAiOjE2ODYzOTg2NzB9.oKIXZ8jTqfSIH2-HEThG5RQY7Y3uPfpuPbqOuqObmt4
+
+
+{
+    "translate": "szó5"
+}
+
 
 
 

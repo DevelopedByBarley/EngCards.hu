@@ -52,7 +52,6 @@ const loginUser = async (req, res) => {
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        // itt további opciókat adhatsz meg a cookie-hoz, például expires, maxAge, stb.
     });
     res.json({ accessToken: accessToken })
 }

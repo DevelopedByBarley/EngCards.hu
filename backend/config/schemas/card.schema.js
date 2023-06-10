@@ -7,25 +7,32 @@ const cardSchema = new Schema({
         required: true,
         unique: true
     },
-    wordInHun: {
+    translate: {
         type: String,
         required: true,
         unique: true
     },
     expiresIn: {
-        type: Date,
-        required: true
+        type: String,
+        required: true,
     },
     state: {
         type: Number,
         default: 1,
         required: true
     },
+    isForRepeat: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    imageName: {
+        type: String,
+    },
     userRefId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
     }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Card', cardSchema);

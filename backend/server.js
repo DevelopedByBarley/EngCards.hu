@@ -12,7 +12,6 @@ const cardController = require('./app/controllers/card.controller');
 
 
 
-
 app.use(express.json());
 app.use('/user', userController);
 app.use('/cards', cardController);
