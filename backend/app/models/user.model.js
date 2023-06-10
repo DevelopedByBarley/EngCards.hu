@@ -7,6 +7,7 @@ const { generateAccessToken, generateRefreshToken } = require('../helpers/genera
 const registerUser = async (req, res) => {
     const { userName, email, password, limit } = req.body;
 
+
     const salt = await bcrypt.genSalt(10);
     const hashedPw = await bcrypt.hash(password, salt);
 
