@@ -5,6 +5,6 @@ const {registerUser, loginUser, token} = require('../models/user.model')
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
-router.post('/token', token);
+router.get('/token', token);
 
 module.exports = router;

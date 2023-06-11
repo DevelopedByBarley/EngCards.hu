@@ -9,6 +9,7 @@ const port = process.env.PORT;
 
 
 const userController = require('./app/controllers/user.controller');
+const themeController = require('./app/controllers/theme.controller');
 const cardController = require('./app/controllers/card.controller');
 
 app.use(cors());
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }))
 
 
 app.use('/user', userController);
+app.use('/themes', themeController);
 app.use('/cards', cardController);
 
 

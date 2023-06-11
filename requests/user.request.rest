@@ -1,0 +1,38 @@
+
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+    "userName": "Barley",
+    "email": "developedbybarley@gmail.com",
+    "password": "Csak1enter",
+    "limit": 5
+}
+
+###
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+    "email": "developedbybarley@gmail.com",
+    "password": "Csak1enter"
+}
+
+
+###
+GET http://localhost:8080/user/token
+Content-Type: application/json
+
+{
+    "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODU4OGI4NGI2YTA5MTlmMzVkNjU4OCIsInVzZXJOYW1lIjoiQmFybGV5IiwibGltaXQiOjMsImVtYWlsIjoiZGV2ZWxvcGVkYnliYXJsZXlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkSkF6NUM3OTJyNWltdTVsejg0NEN2LnVtcFRNdUFnM05Gb2QyMjY2bUlTcnM1bHdEWEF1RUciLCJfX3YiOjB9LCJpYXQiOjE2ODY0NzkxNDUsImV4cCI6MTY4NjQ3OTI2NX0.tH1h_amlwlThicasIDH0UFxycs25aLNNBNTHGe10gvI"
+}
+
+
+
+
+
+
+
+

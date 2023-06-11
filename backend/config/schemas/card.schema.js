@@ -32,6 +32,10 @@ const cardSchema = new Schema({
     userRefId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+    },
+    themeRefId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Theme',
     }
 }, { timestamps: true });
 

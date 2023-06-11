@@ -1,4 +1,6 @@
 const Card = require("../../config/schemas/card.schema");
+const Theme = require('../../config/schemas/theme.schema');
+
 const formatDate = require("../helpers/formatDate");
 const checkCards = require("../helpers/checkCards");
 const moment = require("moment");
@@ -21,7 +23,29 @@ const index = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: "Cards finding error!" });
   }
+
 };
+
+const getCardsByTheme = async (req, res) => {
+
+  const user = req.user.user;
+  const themeId = req.params.id;
+
+  try {
+    await checkCards(user);
+    const cards = await Card.find({
+      themeRefId: themeId,
+    });
+
+    res.status(200).json({
+      cards: cards,
+    });
+  } catch (error) {
+
+    res.status(400).json({ message: "Cards finding error!", error: error });
+  }
+}
+
 
 // GET SINGLE CARD BY ID
 const show = async (req, res) => {
@@ -38,7 +62,8 @@ const show = async (req, res) => {
 
 // ADD NEW CARD
 const newCard = async (req, res) => {
-  let { word, translate } = req.body;
+  const themeId = req.params.id;
+  const { word, translate } = req.body;
   const user = req.user.user;
   const today = moment().startOf("day");
   const endOfDay = moment(today).endOf("day");
@@ -46,33 +71,43 @@ const newCard = async (req, res) => {
   try {
 
     const cardsToday = await Card.find({
-        userRefId: user._id,
-        createdAt: {
-          $gte: today.toDate(),
-          $lte: endOfDay.toDate(),
-        },
+      themeRefId: themeId,
+      createdAt: {
+        $gte: today.toDate(),
+        $lte: endOfDay.toDate(),
+      },
+    });
+
+    let countOfCardsToday = cardsToday.length;
+
+    if (countOfCardsToday >= user.limit) {
+      return res.json({
+        message: "Sajnos ma már nem adhatsz többet hozzá elérted a napi limitet!",
       });
-    
-      let countOfCardsToday = cardsToday.length;
-    
-      if (countOfCardsToday >= user.limit) {
-        return res.json({
-          message: "Sajnos ma már nem adhatsz többet hozzá elérted a napi limitet!",
-        });
-      }
+    }
 
     const expiresIn = formatDate(1);
-    const cards = await new Card({
+    const card = new Card({
       word: word,
       translate: translate,
       expiresIn: expiresIn,
       state: 1,
-      userRefId: user._id,
+      themeRefId: themeId,
+      userRefId: user._id
     });
 
-    cards.save();
+    await card.save();
 
-    res.status(200).json({ cards: cards });
+    // Hozzáadjuk az új kártyát a témához
+    const theme = await Theme.findById(themeId);
+    if (!theme) {
+      return res.status(404).json({ message: 'A témát nem található' });
+    }
+
+    theme.cards.push(card);
+    await theme.save();
+
+    res.status(200).json({ card: card });
   } catch (error) {
     res.status(400).json({ message: "Cards finding error!" });
   }
@@ -139,4 +174,5 @@ module.exports = {
   show,
   newCard,
   compareCard,
+  getCardsByTheme
 };

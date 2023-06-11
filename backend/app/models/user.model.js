@@ -7,7 +7,6 @@ const { generateAccessToken, generateRefreshToken } = require('../helpers/genera
 const registerUser = async (req, res) => {
     const { userName, email, password, limit } = req.body;
 
-
     const salt = await bcrypt.genSalt(10);
     const hashedPw = await bcrypt.hash(password, salt);
 
@@ -35,10 +34,11 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
 
 
-    const { userName, password } = req.body;
+    const { email, password } = req.body;
+
 
     const user = await User.findOne({
-        userName: userName
+        email: email
     })
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
@@ -58,13 +58,19 @@ const loginUser = async (req, res) => {
     res.json({ accessToken: accessToken })
 }
 
-const token = async (req,res) => {
-    const refreshToken = req.body.token;
-    if(refreshToken == null) return res.sendStatus(401);
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-        if(err) return res.sendStatus(403);
-        const accessToken = generateAccessToken({user: user.name});
-        res.json({accessToken:  accessToken});
+const token = async (req, res) => {
+    const refreshToken = req.headers.cookie
+        .split('; ')
+        .find(cookie => cookie.startsWith('refreshToken='))
+        .split('=')[1];
+
+    if (refreshToken == null) return res.sendStatus(401);
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, data) => {
+        if (err) return res.sendStatus(403);
+        const userForToken = { user: data.user };
+        console.log(userForToken);
+        const accessToken = generateAccessToken(userForToken);
+        res.json({ accessToken: accessToken });
     })
 }
 

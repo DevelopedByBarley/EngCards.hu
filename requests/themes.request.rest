@@ -1,0 +1,26 @@
+
+
+
+###
+GET http://localhost:8080/themes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODVlY2E5ZWNiMzJmMmEyY2E5OWNlYiIsInVzZXJOYW1lIjoiQmFybGV5IiwibGltaXQiOjUsImVtYWlsIjoiZGV2ZWxvcGVkYnliYXJsZXlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkZWdjUHhnZnYvYVhIZE4xREREd1NzLkVYZ3RxTUJkUGhFYVduazBmRnd3c1ZRR1htSFE3WEciLCJfX3YiOjB9LCJpYXQiOjE2ODY1MTUwNTAsImV4cCI6MTY4NjUxNTY1MH0.D-xHkvlvP4UD7DYs1orONT6pDJNelEgORZRc7L5633A
+
+
+
+
+
+###
+POST http://localhost:8080/themes/new
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ODVlY2E5ZWNiMzJmMmEyY2E5OWNlYiIsInVzZXJOYW1lIjoiQmFybGV5IiwibGltaXQiOjUsImVtYWlsIjoiZGV2ZWxvcGVkYnliYXJsZXlAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkZWdjUHhnZnYvYVhIZE4xREREd1NzLkVYZ3RxTUJkUGhFYVduazBmRnd3c1ZRR1htSFE3WEciLCJfX3YiOjB9LCJpYXQiOjE2ODY1MDQ5MjMsImV4cCI6MTY4NjUwNTI4M30.MJhgJCFlS4HMNu8BFv1Qrt58C0cWQTfKNbsD66HOlNQ
+
+
+
+{
+    "title":  "Utazás",
+    "color": "hsla(190, 100%, 30%, 1)"
+}
+
+
+
