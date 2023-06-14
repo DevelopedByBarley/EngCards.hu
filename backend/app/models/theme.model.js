@@ -49,9 +49,14 @@ const newTheme = async (req, res) => {
 
     await newTheme.save();
 
-
+    return res.status(200).json({
+      message: "Theme created successfully!",
+      theme: newTheme
+    })
   } catch (error) {
-    return 'Problem in add new';
+    return res.status(400).json({
+      message: "Theme creating problem!"
+    })
   }
 }
 

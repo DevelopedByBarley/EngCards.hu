@@ -6,9 +6,7 @@ export function loginUser(user) {
 
   return axios.post('/user/login', user)
     .then(res => {
-
       localStorage.setItem('accessToken', res.data.accessToken)
-
     })
 }
 

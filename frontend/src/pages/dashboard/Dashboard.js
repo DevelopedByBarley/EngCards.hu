@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchAuthentication } from "../../helpers/AuthService";
 import { Spinner } from "../../components/Spinner";
-import flash from '../../public/images/flash.png'
-
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { ThemeForm } from "../../components/themes/ThemeForm";
+import { ThemeCard } from "../../components/themes/ThemeCard";
 
-export function Dashboard() {
-  const [user, setUser] = useState([]);
+export function Dashboard({ user, setUser }) {
   const [themes, setThemes] = useState([]);
   const [isPending, setPending] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [cardsForRepeat, setCardsForRepeat] = useState([])
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,10 +21,23 @@ export function Dashboard() {
       .get('/themes')
       .then(res => {
         setUser(res.data.user);
-        setThemes(res.data.themes.reverse());
+        setThemes(res.data.themes);
       })
       .catch(() => {
-        localStorage.removeItem('accessToken')
+        navigate('/user/login');
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setPending(false)
+        }, 100)
+      });
+
+      fetchAuthentication
+      .get('/cards')
+      .then(res => {
+        setCardsForRepeat(res.data.cardsForRepeat)
+      })
+      .catch(() => {
         navigate('/user/login');
       })
       .finally(() => {
@@ -32,6 +47,7 @@ export function Dashboard() {
       });
   }, [])
 
+  console.log(cardsForRepeat);
 
   return (
     <>
@@ -43,23 +59,28 @@ export function Dashboard() {
             <Col><h1 className="display-2 mt-5 text-center"> Hello {user.userName} </h1></Col>
           </Row>
           <Row className="p-3">
-            {themes.map((theme) => {
+            {themes?.map((theme) => {
               return (
-                <Col xs={12} md={6} lg={3} 
-                style={{ background: `${theme.color}`, minHeight: "200px" }}
-                className="mt-1 text-center border text-light rounded rounded-lg p-4 d-flex  align-items-center justify-content-center flex-column"
-                >
-                  <h5>{theme.title}</h5>
-                  <div className="mt-5">
-                    <img src={flash} style={{ height: "30px", width: "30px", }} />
-                    <span><strong>
-                        {theme.cards.length}
-                    </strong></span>
-                  </div>
-                </Col>
-
+                <ThemeCard theme={theme} />
               );
             })}
+
+          </Row>
+          <Row>
+            <Col className="text-center">
+              <Button variant="primary" onClick={() => setModalShow(true)}>
+                + Téma
+              </Button>
+
+              <ThemeForm
+                themes={themes}
+                setThemes={setThemes}
+                setModalShow={setModalShow}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+
+            </Col>
 
           </Row>
         </>
