@@ -2,10 +2,21 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import card from '../public/images/card.png';
-import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button'
+import { Link, useNavigate } from 'react-router-dom';
 
 
-export function Navigation({ user }) {
+export function Navigation({ user, setUser }) {
+
+  const navigate = useNavigate();
+
+  function logout() {
+    if (localStorage.getItem('accessToken') !== null) {
+      localStorage.removeItem('accessToken');
+      setUser(false);
+      navigate('/')
+    }
+  }
 
   return (
     <Navbar bg="light" expand="lg">
@@ -25,7 +36,7 @@ export function Navigation({ user }) {
               </Nav.Item>
             ) : (
               <Nav.Item className='text-center'>
-                <Link to="#" className="btn border m-1">Kijelentkezés</Link>
+                <Button className="btn border m-1" onClick={logout}>Kijelentkezés</Button>
               </Nav.Item>
             )}
           </Nav>

@@ -5,12 +5,10 @@ const cardSchema = new Schema({
     word: {
         type: String,
         required: true,
-        unique: true
     },
     translate: {
         type: String,
         required: true,
-        unique: true
     },
     expiresIn: {
         type: String,

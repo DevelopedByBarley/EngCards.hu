@@ -1,8 +1,12 @@
+import '../../public/css/Form.css';
+
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchAuthentication, loginUser } from '../../helpers/AuthService';
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import '../../public/css/Form.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../../helpers/AuthService';
+import { useEffect } from 'react';
+
 
 
 export function Login() {
@@ -21,10 +25,20 @@ export function Login() {
       navigate('/user/login');
       console.log(error);
     })
-
-
-
   }
+
+
+  useEffect(() => {
+    fetchAuthentication.get('getMe')
+    .then(res => {
+      if(res.data.user) {
+        navigate('/dashboard')
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  },[])
 
   return (
     <Form className='mt-5 sub-form p-3' onSubmit={login}>

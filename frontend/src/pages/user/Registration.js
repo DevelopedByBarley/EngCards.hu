@@ -1,10 +1,13 @@
+import '../../public/css/Form.css';
+import axios from 'axios';
+
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import '../../public/css/Form.css';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useState } from 'react';
+
+
 
 export function Registration() {
   const navigate = useNavigate();
@@ -22,6 +25,7 @@ export function Registration() {
 
     axios.post('/user/register', newUser)
       .then(res => {
+        console.log(res.data);
         navigate('/user/login');
       })
       .catch(error => {

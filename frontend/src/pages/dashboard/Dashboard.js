@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { fetchAuthentication } from "../../helpers/AuthService";
-import { Spinner } from "../../components/Spinner";
+
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { ThemeForm } from "../../components/themes/ThemeForm";
+
+import { AiOutlinePlayCircle } from 'react-icons/ai'
+import { Spinner } from "../../components/Spinner";
 import { ThemeCard } from "../../components/themes/ThemeCard";
 
 export function Dashboard({ user, setUser }) {
-  const [themes, setThemes] = useState([]);
-  const [isPending, setPending] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
-  const [cardsForRepeat, setCardsForRepeat] = useState([])
   const navigate = useNavigate();
+  const [isPending, setPending] = useState(false);
+
+
+  const [themes, setThemes] = useState([]);
+  const [cardsForRepeat, setCardsForRepeat] = useState([])
 
   useEffect(() => {
     setPending(true);
@@ -32,7 +36,7 @@ export function Dashboard({ user, setUser }) {
         }, 100)
       });
 
-      fetchAuthentication
+    fetchAuthentication
       .get('/cards')
       .then(res => {
         setCardsForRepeat(res.data.cardsForRepeat)
@@ -47,7 +51,7 @@ export function Dashboard({ user, setUser }) {
       });
   }, [])
 
-  console.log(cardsForRepeat);
+
 
   return (
     <>
@@ -55,30 +59,31 @@ export function Dashboard({ user, setUser }) {
         <Spinner />
       ) : (
         <>
+
           <Row>
-            <Col><h1 className="display-2 mt-5 text-center"> Hello {user.userName} </h1></Col>
+            <Col><h1 className="display-5 mt-5 text-center"> Hello {user.userName} </h1></Col>
           </Row>
+
+          <Row className="mt-3 mb-3">
+            {cardsForRepeat.length !== 0 ? <AiOutlinePlayCircle size={50} style={{ cursor: "pointer" }} /> : ""}
+          </Row>
+
           <Row className="p-3">
             {themes?.map((theme) => {
               return (
                 <ThemeCard theme={theme} />
               );
             })}
-
           </Row>
+
           <Row>
             <Col className="text-center">
-              <Button variant="primary" onClick={() => setModalShow(true)}>
-                + Téma
-              </Button>
+              <Link to={`/themes/new`}>
+                <Button variant="outline-primary">
+                  + Téma
+                </Button>
+              </Link>
 
-              <ThemeForm
-                themes={themes}
-                setThemes={setThemes}
-                setModalShow={setModalShow}
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-              />
 
             </Col>
 

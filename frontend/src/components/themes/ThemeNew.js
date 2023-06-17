@@ -1,12 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 
 import { fetchAuthentication } from '../../helpers/AuthService';
+import { Col, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 
-export function ThemeForm(props) {
 
+
+export function ThemeNew(props) {
+    const navigate = useNavigate();
 
 
     function newTheme(event) {
@@ -19,27 +22,16 @@ export function ThemeForm(props) {
 
         fetchAuthentication
             .post('/themes/new', newTheme)
-            .then((res) => {;
-                props.setThemes(currentThemes => [...currentThemes, res.data.theme]);
-                props.setModalShow(false)
+            .then((res) => {
+                navigate('/dashboard')
             })
     }
 
 
 
     return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Téma hozzáadása
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+        <Row>
+            <Col>
                 <Form onSubmit={newTheme}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Név</Form.Label>
@@ -67,9 +59,8 @@ export function ThemeForm(props) {
                         Mentés
                     </Button>
                 </Form>
-            </Modal.Body>
-
-        </Modal>
+            </Col>
+        </Row>
     );
 }
 

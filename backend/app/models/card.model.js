@@ -42,7 +42,7 @@ const getCardsByTheme = async (req, res) => {
     });
   } catch (error) {
 
-    res.status(400).json({ message: "Cards finding error!", error: error });
+    res.status(400).json({ errorMessage: "Ezt a szókártyát sajnos nem találtuk téma alapján!"});
   }
 }
 
@@ -56,7 +56,7 @@ const show = async (req, res) => {
 
     res.status(200).json({ card: card });
   } catch (error) {
-    res.status(400).json({ message: "Single Card finding error!" });
+    res.status(400).json({ errorMessage: "Ezt a szókártyát sajnos nem találtuk!" });
   }
 };
 
@@ -71,7 +71,6 @@ const newCard = async (req, res) => {
   try {
 
     const cardsToday = await Card.find({
-      themeRefId: themeId,
       createdAt: {
         $gte: today.toDate(),
         $lte: endOfDay.toDate(),
@@ -81,9 +80,21 @@ const newCard = async (req, res) => {
     let countOfCardsToday = cardsToday.length;
 
     if (countOfCardsToday >= user.limit) {
-      return res.json({
-        message: "Sajnos ma már nem adhatsz többet hozzá elérted a napi limitet!",
+      return res.status(400).json({
+        errorMessage: "Sajnos ma már nem adhatsz többet hozzá elérted a napi limitet!",
       });
+    }
+
+
+    // Check word is exist!
+
+    const isWordExist = await Card.findOne({
+      word: word
+    })
+
+    if(isWordExist) {
+      res.status(400).json({ errorMessage: "Ez az angol szó már létezik!" });
+      return;
     }
 
     const expiresIn = formatDate(1);
@@ -101,7 +112,9 @@ const newCard = async (req, res) => {
     // Hozzáadjuk az új kártyát a témához
     const theme = await Theme.findById(themeId);
     if (!theme) {
-      return res.status(404).json({ message: 'A témát nem található' });
+      return res.status(400).json({
+        errorMessage: 'A téma nem található!'
+      });
     }
 
     theme.cards.push(card);
@@ -109,7 +122,7 @@ const newCard = async (req, res) => {
 
     res.status(200).json({ card: card });
   } catch (error) {
-    res.status(400).json({ message: "Cards finding error!" });
+    res.status(400).json({ errorMessage: "Kártya hozzáadási probléma!" });
   }
 };
 
@@ -168,6 +181,8 @@ async function getCardsForRepeat(user) {
 
   return cardsForUpdate;
 }
+
+
 
 module.exports = {
   index,

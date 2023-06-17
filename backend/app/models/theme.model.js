@@ -17,7 +17,7 @@ const index = async (req, res) => {
 
       await newTheme.save();
 
-      themes =  await findThemeByUserId(user)
+      themes = await findThemeByUserId(user)
     }
 
     res.json({
@@ -31,8 +31,25 @@ const index = async (req, res) => {
 
 
 const show = async (req, res) => {
+  const { id } = req.params 
 
+  try {
+    const theme = await Theme.findOne({
+      _id: id
+    })
+    
+    console.log(theme);
 
+    return res.status(200).json({
+      theme
+    })
+
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({
+      errorMessage: "Ez a téma nem található!"
+    })
+  }
 }
 
 
@@ -62,8 +79,8 @@ const newTheme = async (req, res) => {
 
 async function findThemeByUserId(user) {
   const themes = await Theme.find({ userRefId: user._id })
-  .populate('cards')
-  .exec();
+    .populate('cards')
+    .exec();
 
   return themes;
 }
