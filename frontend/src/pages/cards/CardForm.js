@@ -8,17 +8,19 @@ export function CardForm({ setFlashMessage, isCardForUpdate }) {
   const { themeId } = useParams();
   const navigate = useNavigate();
 
-  console.log(isCardForUpdate);
 
   const sendNewCard = (event) => {
     event.preventDefault();
 
-    const newCard = {
-      word: event.target.elements.word.value,
-      translate: event.target.elements.translate.value
-    }
+    const formData = new FormData();
+    formData.append("word", event.target.elements.word.value);
+    formData.append("translate", event.target.elements.translate.value);
+    formData.append("sentence", event.target.elements.sentence.value);
+    formData.append("image", event.target.elements.image.files[0]);
 
-    fetchAuthentication.post(`/cards/new/${themeId}`, newCard)
+ 
+
+    fetchAuthentication.post(`/cards/new/${themeId}`, formData)
       .then(res => {
         navigate(`/cards/${themeId}`);
       })
@@ -39,12 +41,12 @@ export function CardForm({ setFlashMessage, isCardForUpdate }) {
             variant: ""
           })
         }, 2500)
-      })
+      });
+  };
 
-  }
 
 
-  const updateCard  = (event) => {
+  const updateCard = (event) => {
     event.preventDefault();
 
     const newCard = {
@@ -70,6 +72,16 @@ export function CardForm({ setFlashMessage, isCardForUpdate }) {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Forditás</Form.Label>
               <Form.Control type="text" placeholder="Forditás" name="translate" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Példa mondat</Form.Label>
+              <Form.Control type="text" placeholder="Példa mondat" name="sentence" />
+            </Form.Group>
+
+            <Form.Group controlId="formFile" className="mb-3">
+              <Form.Label>Fényképes illusztráció</Form.Label>
+              <Form.Control type="file" name="image" />
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit

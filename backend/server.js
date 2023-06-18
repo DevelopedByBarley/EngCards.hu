@@ -15,6 +15,9 @@ const cardController = require('./app/controllers/card.controller');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
+app.use(express.static(__dirname + '/public'))
+
+console.log(__dirname + '/public');
 
 
 app.use('/user', userController);

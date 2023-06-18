@@ -10,6 +10,10 @@ const cardSchema = new Schema({
         type: String,
         required: true,
     },
+    sentence: {
+        type: String,
+        required: true
+    },
     expiresIn: {
         type: String,
         required: true,

@@ -38,7 +38,6 @@ const show = async (req, res) => {
       _id: id
     })
     
-    console.log(theme);
 
     return res.status(200).json({
       theme

@@ -17,6 +17,7 @@ export function Login() {
     let user = {
       email: event.target.elements.email.value,
       password: event.target.elements.password.value,
+      stayLogin: event.target.elements.stayLogin.checked
     }
 
     loginUser(user).then(() => {
@@ -53,10 +54,10 @@ export function Login() {
         <Form.Control type="password" placeholder="Jelszó" name='password' />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Maradjak bejelentkezve" />
+        <Form.Check type="checkbox" label="Maradjak bejelentkezve" name='stayLogin' />
       </Form.Group>
       <div className='text-center'>
-        <Button variant="primary" type="submit" className='mt-5' name='remember'>
+        <Button variant="primary" type="submit" className='mt-5'>
           Bejelentkezés
         </Button>
       </div>

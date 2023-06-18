@@ -42,7 +42,7 @@ const getCardsByTheme = async (req, res) => {
     });
   } catch (error) {
 
-    res.status(400).json({ errorMessage: "Ezt a szókártyát sajnos nem találtuk téma alapján!"});
+    res.status(400).json({ errorMessage: "Ezt a szókártyát sajnos nem találtuk téma alapján!" });
   }
 }
 
@@ -60,13 +60,26 @@ const show = async (req, res) => {
   }
 };
 
+function replaceWordWithUnderscores(sentence, word) {
+  const regex = new RegExp(`\\b${word}\\b`, 'gi');
+  const replacedSentence = sentence.replace(regex, '______');
+  return replacedSentence;
+}
+
 // ADD NEW CARD
 const newCard = async (req, res) => {
-  const themeId = req.params.id;
-  const { word, translate } = req.body;
   const user = req.user.user;
+  const themeId = req.params.id;
+  const word = req.body.word.toLowerCase();
+  const translate = req.body.translate.toLowerCase();
+  const sentence = req.body.sentence.toLowerCase();
+  const replacedSentence = replaceWordWithUnderscores(sentence, word)
+  const fileName = req.file.filename
+
+
   const today = moment().startOf("day");
   const endOfDay = moment(today).endOf("day");
+
 
   try {
 
@@ -85,14 +98,11 @@ const newCard = async (req, res) => {
       });
     }
 
-
-    // Check word is exist!
-
     const isWordExist = await Card.findOne({
       word: word
     })
 
-    if(isWordExist) {
+    if (isWordExist) {
       res.status(400).json({ errorMessage: "Ez az angol szó már létezik!" });
       return;
     }
@@ -100,9 +110,11 @@ const newCard = async (req, res) => {
     const expiresIn = formatDate(1);
     const card = new Card({
       word: word,
-      translate: translate,
+      translate: translate.toLowerCase(),
+      sentence: replacedSentence,
       expiresIn: expiresIn,
       state: 1,
+      imageName: fileName,
       themeRefId: themeId,
       userRefId: user._id
     });
@@ -130,13 +142,13 @@ const newCard = async (req, res) => {
 
 const compareCard = async (req, res) => {
   const id = req.params.id;
-  const { translate } = req.body;
+  const { word } = req.body;
 
   try {
     const card = await Card.findById(id);
     const nextState = card.state + 1;
 
-    const compareWord = translate === card.translate;
+    const compareWord = word.toLowerCase() === card.word;
 
     if (!compareWord) {
       let expiresIn = formatDate(card.state);
@@ -146,7 +158,9 @@ const compareCard = async (req, res) => {
       });
 
       return res.status(200).json({
-        message: "Card expires reset because u did not remember!",
+        message: "Sajnos nem találtad el, majd  legközelebb!",
+        variant: 'danger',
+        isSuccess: true,
         card: updatedCard,
       });
     }
@@ -156,6 +170,7 @@ const compareCard = async (req, res) => {
     if (nextState === 5) {
       await Card.findByIdAndDelete(id);
     }
+
     let updatedCard = await Card.findByIdAndUpdate(id, {
       expiresIn: expiresIn,
       isForRepeat: false,
@@ -163,7 +178,9 @@ const compareCard = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: "Congratulations! U did remember that word!",
+      message: "Ezt eltaláltad! Szép munka!",
+      variant: "success",
+      isSuccess: true,
       card: updatedCard,
     });
   } catch (error) {

@@ -13,6 +13,7 @@ import { CardForm } from './pages/cards/CardForm';
 import { MainPage } from './pages/MainPage';
 import { ThemeNew } from './components/themes/ThemeNew';
 import { ThemeUpdate } from './components/themes/ThemeUpdate';
+import { CardsForRepeat } from './pages/cards/CardsForReapeat'
 
 
 function App() {
@@ -30,7 +31,9 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('accessToken') !== null) {
       fetchAuthentication.get('/user/getMe')
-        .then(res => setUser(res.data.user))
+        .then(res => {
+          setUser(res.data.user)
+        })
         .catch(() => {
           localStorage.removeItem('accessToken');
         })
@@ -45,7 +48,7 @@ function App() {
           message: "",
           variant: ""
         });
-      }, 2500);
+      }, 2000);
 
       return () => {
         clearTimeout(timeout);
@@ -55,9 +58,9 @@ function App() {
 
   return (
     <>
-      {flashMessage.isFlashActive ? <FlashMessage message={flashMessage.message} variant={flashMessage.variant} /> : ""}
-      <Navigation user={user} setUser={setUser}/>
+      <Navigation user={user} setUser={setUser} />
       <Container>
+        {flashMessage.isFlashActive ? <FlashMessage message={flashMessage.message} variant={flashMessage.variant} /> : ""}
         <Routes>
           <Route path='/' element={<MainPage />} />
           <Route path='/user'>
@@ -69,9 +72,10 @@ function App() {
             <Route path='update/:themeId' element={<ThemeUpdate />} />
           </Route>
           <Route path='/cards'>
+            <Route path='repeat' element={<CardsForRepeat setFlashMessage={setFlashMessage} />} />
             <Route path=':themeId' element={<CardList setFlashMessage={setFlashMessage} />} />
-            <Route path='new/:themeId' element={<CardForm setFlashMessage={setFlashMessage} isCardForUpdate={false}/>} />
-            <Route path='update/:themeId' element={<CardForm setFlashMessage={setFlashMessage} isCardForUpdate={true}/>} />
+            <Route path='new/:themeId' element={<CardForm setFlashMessage={setFlashMessage} isCardForUpdate={false} />} />
+            <Route path='update/:themeId' element={<CardForm setFlashMessage={setFlashMessage} isCardForUpdate={true} />} />
           </Route>
           <Route path='/dashboard' element={<Dashboard user={user} setUser={setUser} />}></Route>
         </Routes>

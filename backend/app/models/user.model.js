@@ -32,33 +32,30 @@ const registerUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
+    const { email, password, stayLogin } = req.body;
 
-
-    const { email, password } = req.body;
-
-    console.log(email, password);
-
-
-    const user = await User.findOne({
-        email: email
-    })
+    const user = await User.findOne({ email });
 
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
+    if (!passwordIsValid) {
+        return res.status(403).json({ message: "Invalid password" });
+    }
 
-    if (!passwordIsValid) return res.sendStatus(403);
-
-    const userForToken = { user: user };
+    const userForToken = { user };
 
     const accessToken = generateAccessToken(userForToken);
-    const refreshToken = generateRefreshToken(userForToken)
-
+    const refreshToken = generateRefreshToken(userForToken);
+    const oneDay = 24 * 60 * 60 * 1000; 
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
+        maxAge: stayLogin ? oneDay : undefined
     });
-    res.json({ accessToken: accessToken })
+
+    res.json({ accessToken });
 }
+
 
 
 const getMe = (req, res) => {
@@ -73,16 +70,20 @@ const getMe = (req, res) => {
 
 
 const token = async (req, res) => {
-    const refreshToken = req.headers.cookie
-        .split('; ')
-        .find(cookie => cookie.startsWith('refreshToken='))
-        .split('=')[1];
+    let refreshToken;
+    const cookie = req.headers.cookie;
+
+    if (cookie) {
+        refreshToken = req.headers.cookie
+            .split('; ')
+            .find(cookie => cookie.startsWith('refreshToken='))
+            .split('=')[1];
+    }
 
     if (refreshToken == null) return res.sendStatus(401);
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, data) => {
         if (err) return res.sendStatus(403);
         const userForToken = { user: data.user };
-        console.log(userForToken);
         const accessToken = generateAccessToken(userForToken);
         res.json({ accessToken: accessToken });
     })

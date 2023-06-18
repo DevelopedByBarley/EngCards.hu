@@ -65,7 +65,14 @@ export function Dashboard({ user, setUser }) {
           </Row>
 
           <Row className="mt-3 mb-3">
-            {cardsForRepeat.length !== 0 ? <AiOutlinePlayCircle size={50} style={{ cursor: "pointer" }} /> : ""}
+            {cardsForRepeat.length !== 0 ?
+              (
+                <Col className="text-center">
+                  <Link to={"/cards/repeat"}>
+                    <AiOutlinePlayCircle size={50} style={{ cursor: "pointer" }} />
+                  </Link>
+                </Col>
+              ) : ""}
           </Row>
 
           <Row className="p-3">
