@@ -80,7 +80,7 @@ export function CardsForRepeat({ setFlashMessage }) {
                       {cardsForRepeat[cardStep]?.sentence}
                     </Card.Text>
                     <Form onSubmit={compareCard} data-id={`${cardsForRepeat[cardStep]?._id}`}>
-                      <Form.Control type="text" placeholder="Angol szó" name="word" required />
+                      <Form.Control type="text" placeholder="Angol szó" name="word" required  autocomplete="off" />
                       <Button type="submit" className="mt-4" variant="primary">Go somewhere</Button>
                     </Form>
                   </Card.Body>

@@ -10,7 +10,7 @@ import { Registration } from './pages/user/Registration';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import { CardList } from './components/cards/CardList';
 import { MainPage } from './pages/MainPage';
-import { ThemeNew } from './components/themes/ThemeNew';
+import { AddTheme } from './components/themes/AddTheme';
 import { ThemeUpdate } from './components/themes/ThemeUpdate';
 import { CardsForRepeat } from './pages/cards/CardsForReapeat'
 import { AddCard } from './pages/cards/AddCard';
@@ -69,7 +69,7 @@ function App() {
             <Route path='registration' element={<Registration />} />
           </Route>
           <Route path='/themes'>
-            <Route path='new' element={<ThemeNew />} />
+            <Route path='new' element={<AddTheme />} />
             <Route path='update/:themeId' element={<ThemeUpdate />} />
           </Route>
           <Route path='/cards'>

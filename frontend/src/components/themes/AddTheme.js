@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-export function ThemeNew(props) {
+export function AddTheme(props) {
     const navigate = useNavigate();
 
 
@@ -23,7 +23,7 @@ export function ThemeNew(props) {
         fetchAuthentication
             .post('/themes/new', newTheme)
             .then((res) => {
-                navigate('/dashboard')
+                navigate(`/cards/new/${res.data.theme._id}`)
             })
     }
 

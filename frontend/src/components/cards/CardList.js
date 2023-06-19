@@ -4,6 +4,7 @@ import { fetchAuthentication } from '../../helpers/AuthService';
 import { Spinner } from '../Spinner';
 import { Container, Row, Col, Table, Button, ButtonGroup } from 'react-bootstrap';
 import { ShowModal } from '../modal/ShowModal';
+import { DeleteThemeModal } from '../themes/DeleteThemeModal';
 
 export function CardList({ setFlashMessage }) {
   const navigate = useNavigate();
@@ -12,6 +13,10 @@ export function CardList({ setFlashMessage }) {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+
+  const [showThemeModal, setShowThemeModal] = useState(false);
+  const handleThemeClose = () => setShowThemeModal(false);
+  const handleThemeShow = () => setShowThemeModal(true);
 
 
 
@@ -69,6 +74,17 @@ export function CardList({ setFlashMessage }) {
           <Row className='mb-5'>
             <Col className='border p-3'>
               <span>Téma: <h3>{theme.title}</h3></span>
+              <ButtonGroup aria-label="Basic example">
+                <Link to={`/themes/update/${themeId}`}>
+                  <Button variant="outline-secondary" className='m-1 rounded-0'>Szerkesztés</Button>
+                </Link>
+                <Button variant="outline-primary" className='m-1 rounded-0' style={{ marginLeft: ".5rem" }} themeId={themeId} onClick={() => {
+                  handleThemeShow();
+                }}>
+                  Törlés
+                </Button>
+                <DeleteThemeModal showThemeModal={showThemeModal} handleThemeClose={handleThemeClose}/>
+              </ButtonGroup>
             </Col>
           </Row>
           <Table responsive>
@@ -101,8 +117,8 @@ export function CardList({ setFlashMessage }) {
                       }}>
                         Törlés
                       </Button>
-                  
-                        <ShowModal setCards={setCards} showModal={showModal} handleClose={handleClose} title={"Szó törlése"}  body={"Biztosan törlöd ezt a szót?"} cardIdForDelete={cardIdForDelete}/>
+
+                      <ShowModal setCards={setCards} showModal={showModal} handleClose={handleClose} title={"Szó törlése"} body={"Biztosan törlöd ezt a szót?"} cardIdForDelete={cardIdForDelete} />
                     </ButtonGroup>
                   </td>
 
