@@ -3,16 +3,25 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchAuthentication } from '../../helpers/AuthService';
 import { Spinner } from '../Spinner';
 import { Container, Row, Col, Table, Button, ButtonGroup } from 'react-bootstrap';
+import { ShowModal } from '../modal/ShowModal';
 
 export function CardList({ setFlashMessage }) {
   const navigate = useNavigate();
   const [isPending, setPending] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
+
+
+
 
   const { themeId } = useParams();
 
   const [cards, setCards] = useState([]);
   const [theme, setTheme] = useState('');
+  const [cardIdForDelete, setCardIdForDelete] = useState('');
 
 
 
@@ -51,7 +60,6 @@ export function CardList({ setFlashMessage }) {
       .then(res => setTheme(res.data.theme))
   }, []);
 
-
   return (
     <>
       {isPending ? (
@@ -61,10 +69,6 @@ export function CardList({ setFlashMessage }) {
           <Row className='mb-5'>
             <Col className='border p-3'>
               <span>Téma: <h3>{theme.title}</h3></span>
-              <Button variant="outline-primary">Téma törlése</Button>{' '}
-              <Link to={`/themes/update/${themeId}`}>
-                <Button variant="outline-secondary">Téma szerkesztése</Button>{' '}
-              </Link>
             </Col>
           </Row>
           <Table responsive>
@@ -91,7 +95,14 @@ export function CardList({ setFlashMessage }) {
                       <Link to={`/cards/update/${card._id}`}>
                         <Button style={{ marginRight: ".5rem" }} variant='outline-warning'>Szerkesztés</Button>
                       </Link>
-                      <Button style={{ marginLeft: ".5rem" }} variant='outline-danger'>Törlés</Button>
+                      <Button variant='outline-danger' style={{ marginLeft: ".5rem" }} onClick={() => {
+                        handleShow();
+                        setCardIdForDelete(card._id);
+                      }}>
+                        Törlés
+                      </Button>
+                  
+                        <ShowModal setCards={setCards} showModal={showModal} handleClose={handleClose} title={"Szó törlése"}  body={"Biztosan törlöd ezt a szót?"} cardIdForDelete={cardIdForDelete}/>
                     </ButtonGroup>
                   </td>
 

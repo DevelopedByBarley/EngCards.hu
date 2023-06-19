@@ -1,6 +1,7 @@
 const Card = require("../../config/schemas/card.schema");
 const Theme = require('../../config/schemas/theme.schema');
 
+const deleteImage = require('../helpers/deleteImage');
 const formatDate = require("../helpers/formatDate");
 const checkCards = require("../helpers/checkCards");
 const moment = require("moment");
@@ -53,6 +54,13 @@ const show = async (req, res) => {
 
   try {
     const card = await Card.findById(id);
+    const sectionForSearch = "______";
+
+    console.log(card);
+
+    if (card.sentence.includes(sectionForSearch)) {
+      card.sentence = card.sentence.replace(/______/g, card.word);
+    }
 
     res.status(200).json({ card: card });
   } catch (error) {
@@ -74,7 +82,7 @@ const newCard = async (req, res) => {
   const translate = req.body.translate.toLowerCase();
   const sentence = req.body.sentence.toLowerCase();
   const replacedSentence = replaceWordWithUnderscores(sentence, word)
-  const fileName = req.file.filename
+  const fileName = req.file ? req.file.filename : null;
 
 
   const today = moment().startOf("day");
@@ -110,7 +118,7 @@ const newCard = async (req, res) => {
     const expiresIn = formatDate(1);
     const card = new Card({
       word: word,
-      translate: translate.toLowerCase(),
+      translate: translate,
       sentence: replacedSentence,
       expiresIn: expiresIn,
       state: 1,
@@ -168,6 +176,9 @@ const compareCard = async (req, res) => {
     let expiresIn = formatDate(nextState);
 
     if (nextState === 5) {
+      const card = await Card.findById(id);
+      deleteImage(card.imageName);
+
       await Card.findByIdAndDelete(id);
     }
 
@@ -188,6 +199,62 @@ const compareCard = async (req, res) => {
   }
 };
 
+
+// DELETE CARD 
+
+const deleteCard = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const deletedCard = await Card.findOneAndDelete({
+      _id: id
+    })
+
+    deleteImage(deletedCard.imageName);
+
+    res.status(200).json({ deletedCard: deletedCard });
+
+  } catch (error) {
+
+  }
+}
+
+// UPDATE CARD
+
+const updateCard = async (req, res) => {
+
+  const user = req.user.user;
+  const id = req.params.id;
+  const fileName = req.file ? req.file.filename : null;
+  const word = req.body.word.toLowerCase();
+  const translate = req.body.translate.toLowerCase();
+  const sentence = req.body.sentence.toLowerCase();
+  const replacedSentence = replaceWordWithUnderscores(sentence, word)
+
+  const card = await Card.findById(id);
+
+
+  if (fileName !== null) {
+    deleteImage(card.imageName);
+  }
+
+  const updateCard = await Card.findOneAndUpdate({
+    word: word,
+    translate: translate.toLowerCase(),
+    sentence: replacedSentence,
+    expiresIn: card.expiresIn,
+    state: card.state,
+    imageName: fileName ? fileName : card.fileName,
+    themeRefId: card.themeRefId,
+    userRefId: user._id
+  })
+
+  res.status(200).json({ updateCard: updateCard });
+}
+
+
+
+
 // GET CARDS FOR REPEAT BY USER
 
 async function getCardsForRepeat(user) {
@@ -206,5 +273,7 @@ module.exports = {
   show,
   newCard,
   compareCard,
+  deleteCard,
+  updateCard,
   getCardsByTheme
 };

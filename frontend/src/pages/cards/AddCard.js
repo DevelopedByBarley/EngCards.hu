@@ -4,11 +4,10 @@ import { fetchAuthentication } from "../../helpers/AuthService";
 import { Form } from "react-bootstrap";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
-export function CardForm({ setFlashMessage, isCardForUpdate }) {
-  const { themeId } = useParams();
+export function AddCard({ setFlashMessage }) {
+  const { id } = useParams();
   const navigate = useNavigate();
-
-
+  
   const sendNewCard = (event) => {
     event.preventDefault();
 
@@ -18,11 +17,11 @@ export function CardForm({ setFlashMessage, isCardForUpdate }) {
     formData.append("sentence", event.target.elements.sentence.value);
     formData.append("image", event.target.elements.image.files[0]);
 
- 
 
-    fetchAuthentication.post(`/cards/new/${themeId}`, formData)
+
+    fetchAuthentication.post(`/cards/new/${id}`, formData)
       .then(res => {
-        navigate(`/cards/${themeId}`);
+        navigate(`/cards/${id}`);
       })
       .catch((err) => {
         console.log(err);
@@ -31,7 +30,7 @@ export function CardForm({ setFlashMessage, isCardForUpdate }) {
           message: err.response.data.errorMessage,
           variant: "danger"
         })
-        navigate(`/cards/${themeId}`);
+        navigate(`/cards/${id}`);
       })
       .finally(() => {
         setTimeout(() => {
@@ -46,24 +45,14 @@ export function CardForm({ setFlashMessage, isCardForUpdate }) {
 
 
 
-  const updateCard = (event) => {
-    event.preventDefault();
 
-    const newCard = {
-      word: event.target.elements.word.value,
-      translate: event.target.elements.translate.value
-    }
-
-    console.log(newCard);
-
-  }
 
   return (
     <Container>
       <Row>
         <Col className="d-flex align-items-center justify-content-center" style={{ minHeight: "80vh" }}>
-          <Form className="w-100" onSubmit={isCardForUpdate ? updateCard : sendNewCard}>
-            <h1 className="display-4 text-center mb-5">Új kártya hozzáadása</h1>
+          <Form className="w-100" onSubmit={sendNewCard} >
+            <h1 className="display-4 text-center mb-5">Kártya hozzáadása</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Szó angolul</Form.Label>
               <Form.Control type="text" placeholder="Szó angolul" name="word" />
@@ -76,7 +65,7 @@ export function CardForm({ setFlashMessage, isCardForUpdate }) {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Példa mondat</Form.Label>
-              <Form.Control type="text" placeholder="Példa mondat" name="sentence" />
+              <Form.Control type="text" placeholder="Példa mondat" name="sentence"/>
             </Form.Group>
 
             <Form.Group controlId="formFile" className="mb-3">

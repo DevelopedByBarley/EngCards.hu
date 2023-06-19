@@ -9,11 +9,12 @@ import { Login } from './pages/user/Login';
 import { Registration } from './pages/user/Registration';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import { CardList } from './components/cards/CardList';
-import { CardForm } from './pages/cards/CardForm';
 import { MainPage } from './pages/MainPage';
 import { ThemeNew } from './components/themes/ThemeNew';
 import { ThemeUpdate } from './components/themes/ThemeUpdate';
 import { CardsForRepeat } from './pages/cards/CardsForReapeat'
+import { AddCard } from './pages/cards/AddCard';
+import { UpdateCard } from './pages/cards/UpdateCard';
 
 
 function App() {
@@ -74,8 +75,8 @@ function App() {
           <Route path='/cards'>
             <Route path='repeat' element={<CardsForRepeat setFlashMessage={setFlashMessage} />} />
             <Route path=':themeId' element={<CardList setFlashMessage={setFlashMessage} />} />
-            <Route path='new/:themeId' element={<CardForm setFlashMessage={setFlashMessage} isCardForUpdate={false} />} />
-            <Route path='update/:themeId' element={<CardForm setFlashMessage={setFlashMessage} isCardForUpdate={true} />} />
+            <Route path='new/:id' element={<AddCard setFlashMessage={setFlashMessage} />} />
+            <Route path='update/:id' element={<UpdateCard setFlashMessage={setFlashMessage} />} />
           </Route>
           <Route path='/dashboard' element={<Dashboard user={user} setUser={setUser} />}></Route>
         </Routes>
