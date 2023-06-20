@@ -1,10 +1,11 @@
 import { Button, Col, Row, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchAuthentication } from '../../helpers/AuthService';
 
 export function ThemeUpdate() {
 
   const navigate = useNavigate();
-
+  const { themeId } = useParams();
 
   function updateTheme(event) {
     event.preventDefault();
@@ -15,16 +16,14 @@ export function ThemeUpdate() {
     };
 
 
-    console.log(newThemForUpdate);
 
-    /**
-     * 
+
     fetchAuthentication
-        .post('/themes/update', newTheme)
-        .then((res) => {
-            navigate('/dashboard')
-        })
-     */
+      .put(`/themes/${themeId}`, newThemForUpdate)
+      .then(() => {
+        navigate(`/cards/${themeId}`)
+      })
+
   }
 
 

@@ -97,7 +97,7 @@ const deleteTheme = async (req, res) => {
       })
 
       console.log(deletedCards);
-      
+
     }
 
     return res.status(200).json({
@@ -107,6 +107,28 @@ const deleteTheme = async (req, res) => {
   } catch (error) {
     return res.status(400).json({
       message: "Theme creating problem!"
+    })
+  }
+}
+
+
+const updateTheme = async (req, res) => {
+  const id = req.params.id;
+  const { title, color } = req.body;
+
+  try {
+    await Theme.findOneAndUpdate({ _id: id }, {
+      title: title,
+      color: color
+    }, { new: true })
+    return res.status(200).json({
+      message: "Theme created successfully!",
+      theme: newTheme
+    })
+
+  } catch (error) {
+    return res.status(400).json({
+      message: "Theme Update problem!"
     })
   }
 }
@@ -124,5 +146,6 @@ module.exports = {
   index,
   show,
   newTheme,
-  deleteTheme
+  deleteTheme,
+  updateTheme
 }
