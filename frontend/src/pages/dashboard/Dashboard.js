@@ -52,7 +52,6 @@ export function Dashboard({ user, setUser }) {
   }, [])
 
 
-
   return (
     <>
       {isPending ? (

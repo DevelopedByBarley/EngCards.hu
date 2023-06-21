@@ -13,7 +13,9 @@ const registerUser = async (req, res) => {
     try {
         const user = await User.findOne({ email: email });
         if (user) {
-            return res.status(409).json({ message: "User already exist!" });
+            return res.status(409).json({
+                errorMessage: "Hiba a regisztráció közben"
+            });
         }
 
         const newUser = new User({
@@ -24,10 +26,10 @@ const registerUser = async (req, res) => {
         });
 
         await newUser.save();
-        res.status(200).json({ message: "User registration done!" });
+        res.status(200).json({ message: "Sikeres regisztráció!" });
 
     } catch (error) {
-        res.status(400).json({ message: "User registration error!" });
+        res.status(400).json({ errorMessage: "Sikertelen regisztráció!" });
     }
 }
 
@@ -39,7 +41,7 @@ const loginUser = async (req, res) => {
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
     if (!passwordIsValid) {
-        return res.status(403).json({ message: "Invalid password" });
+        return res.status(403).json({ errorMessage: "Nem megfelelő email vagy jelszó!" });
     }
 
     const userForToken = { user };
@@ -62,9 +64,9 @@ const getMe = (req, res) => {
     const { user } = req.user
 
     if (user) {
-        res.status(200).json({ user: user, message: "Found User!" })
+        res.status(200).json({ user: user, errorMessage: "Found User!" })
     } else {
-        res.status(400).json({ user: false, message: "Error finding user!" })
+        res.status(400).json({ user: false, errorMessage: "Error finding user!" })
     }
 }
 

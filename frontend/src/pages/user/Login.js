@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 
 
-export function Login() {
+export function Login({setFlashMessage}) {
   const navigate = useNavigate();
 
   function login(event) {
@@ -22,24 +22,29 @@ export function Login() {
 
     loginUser(user).then(() => {
       navigate('/dashboard');
-    }).catch((error) => {
+    }).catch((err) => {
+      setFlashMessage({
+        isFlashActive: true,
+        message: err.response.data.errorMessage,
+        variant: "danger"
+      })
       navigate('/user/login');
-      console.log(error);
+      console.log(err);
     })
   }
 
 
   useEffect(() => {
     fetchAuthentication.get('getMe')
-    .then(res => {
-      if(res.data.user) {
-        navigate('/dashboard')
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-  },[])
+      .then(res => {
+        if (res.data.user) {
+          navigate('/dashboard')
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }, [])
 
   return (
     <Form className='mt-5 sub-form p-3' onSubmit={login}>

@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 
 
 
-export function Registration() {
+export function Registration({setFlashMessage}) {
   const navigate = useNavigate();
   const [error,setError] = useState('');
 
@@ -28,16 +28,12 @@ export function Registration() {
         console.log(res.data);
         navigate('/user/login');
       })
-      .catch(error => {
-        if (error.response || error.response && error.response.status === 409) {
-          navigate('/user/registration');
-          event.target.elements.userName.value = ''
-          event.target.elements.email.value = ''
-          event.target.elements.password.value = ''
-          event.target.elements.limit.value = ''
-        }
-
-        setError("Ezekkel az adatokkal már regisztráltak!");
+      .catch(err => {
+        setFlashMessage({
+          isFlashActive: true,
+          message: err.response.data.errorMessage,
+          variant: "danger"
+        })
       });
 
   }

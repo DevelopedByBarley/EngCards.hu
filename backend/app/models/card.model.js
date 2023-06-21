@@ -35,7 +35,7 @@ const getCardsByTheme = async (req, res) => {
   try {
     await checkCards(user);
     const cards = await Card.find({
-      themeRefId: themeId,
+      themeRefId: themeId
     });
 
     res.status(200).json({
@@ -176,10 +176,10 @@ const compareCard = async (req, res) => {
     let expiresIn = formatDate(nextState);
 
     if (nextState === 5) {
-      const card = await Card.findById(id);
-      deleteImage(card.imageName);
-
-      await Card.findByIdAndDelete(id);
+      await Card.findByIdAndUpdate(id, {
+        isItLearned: true,
+        isForRepeat: false
+      });
     }
 
     let updatedCard = await Card.findByIdAndUpdate(id, {
@@ -210,11 +210,36 @@ const deleteCard = async (req, res) => {
       _id: id
     })
 
-    deleteImage(deletedCard.imageName);
+
+    if (deletedCard.imageName) {
+      deleteImage(deletedCard.imageName);
+    }
+
+    const theme = await Theme.findById(deletedCard.themeRefId);
+    if (!theme) {
+      return res.status(400).json({
+        errorMessage: 'A téma nem található!'
+      });
+    }
+
+    // Keresd meg a kártyát a theme.cards tömbben
+    const cardIndex = theme.cards.findIndex(card => card._id.toString() === id);
+    if (cardIndex === -1) {
+      return res.status(400).json({
+        errorMessage: 'A kártya nem található a témában!'
+      });
+    }
+
+    // Távolítsd el a kártyát a theme.cards tömbből
+    theme.cards.splice(cardIndex, 1);
+
+    await theme.save();
+
 
     res.status(200).json({ deletedCard: deletedCard });
 
   } catch (error) {
+
 
   }
 }
@@ -261,6 +286,7 @@ async function getCardsForRepeat(user) {
   const cardsForUpdate = await Card.find({
     userRefId: user._id,
     isForRepeat: true,
+    isItLearned: false
   });
 
   return cardsForUpdate;

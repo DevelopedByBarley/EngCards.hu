@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 export function DeleteThemeModal({ showThemeModal, handleThemeClose ,themeId }) {
   const navigate = useNavigate();
 
+  console.log(themeId);
+
   function action(event) {
     event.preventDefault();
 

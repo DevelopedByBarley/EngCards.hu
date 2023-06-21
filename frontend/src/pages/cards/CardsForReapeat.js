@@ -66,7 +66,8 @@ export function CardsForRepeat({ setFlashMessage }) {
             <Row id="cards-for-repeat">
               <Col xs={12}>
                 <ListGroup className="mt-3">
-                  {cardsForRepeat.map((card, index) => (
+                  {cardsForRepeat
+                  .map((card, index) => (
                     <ListGroupItem key={index} className={cardStep === index ? 'active' : ''}>{card.translate}</ListGroupItem>
                   ))}
                 </ListGroup>

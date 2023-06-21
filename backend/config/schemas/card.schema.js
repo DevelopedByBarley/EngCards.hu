@@ -28,6 +28,11 @@ const cardSchema = new Schema({
         default: false,
         required: true
     },
+    isItLearned: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
     imageName: {
         type: String,
     },

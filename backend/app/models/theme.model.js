@@ -4,9 +4,7 @@ const deleteImage = require('../helpers/deleteImage')
 
 const index = async (req, res) => {
   const user = req.user.user;
-
-
-
+  
   try {
     let themes = await findThemeByUserId(user)
 
@@ -80,8 +78,9 @@ const newTheme = async (req, res) => {
 
 const deleteTheme = async (req, res) => {
   const id = req.params.id;
+
   try {
-    const deleteTheme = await Theme.findOneAndDelete(id);
+    const deleteTheme = await Theme.findOneAndDelete({ _id: id });
     if (deleteTheme) {
 
       const cardsForDelete = await Card.find({
@@ -90,24 +89,22 @@ const deleteTheme = async (req, res) => {
 
       cardsForDelete.forEach((card) => {
         deleteImage(card.imageName);
-      })
+      });
 
       const deletedCards = await Card.deleteMany({
         themeRefId: deleteTheme._id
-      })
-
-      console.log(deletedCards);
+      });
 
     }
 
     return res.status(200).json({
       message: "Theme deleted successfully!",
       deleteTheme: deleteTheme
-    })
+    });
   } catch (error) {
     return res.status(400).json({
-      message: "Theme creating problem!"
-    })
+      message: "Error deleting theme: " + error.message
+    });
   }
 }
 

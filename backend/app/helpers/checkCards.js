@@ -4,7 +4,7 @@ const formatDate = require('../helpers/formatDate');
 async function checkCards(user) {
     const today = formatDate();
     const cards = await Card.updateMany(
-      { userRefId: user._id, expiresIn: { $lt: today } },
+      { userRefId: user._id, expiresIn: { $lt: today }, isItLearned: false },
       { $set: { isForRepeat: true } }
     );
   

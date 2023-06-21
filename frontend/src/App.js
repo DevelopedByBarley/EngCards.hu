@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 
 import { fetchAuthentication } from './helpers/AuthService';
@@ -8,18 +8,20 @@ import { Navigation } from './components/Navigation';
 import { Login } from './pages/user/Login';
 import { Registration } from './pages/user/Registration';
 import { Dashboard } from './pages/dashboard/Dashboard';
-import { CardList } from './components/cards/CardList';
+import { CardList } from './pages/cards/CardList';
 import { MainPage } from './pages/MainPage';
 import { AddTheme } from './components/themes/AddTheme';
 import { ThemeUpdate } from './components/themes/ThemeUpdate';
 import { CardsForRepeat } from './pages/cards/CardsForReapeat'
 import { AddCard } from './pages/cards/AddCard';
 import { UpdateCard } from './pages/cards/UpdateCard';
+import { Profile } from './pages/profile/Profile';
 
 
 function App() {
 
   const [user, setUser] = useState(false);
+  const navigate = useNavigate();
 
   const [flashMessage, setFlashMessage] = useState(
     {
@@ -37,6 +39,7 @@ function App() {
         })
         .catch(() => {
           localStorage.removeItem('accessToken');
+          navigate('/');
         })
     }
   }, [])
@@ -64,9 +67,12 @@ function App() {
         {flashMessage.isFlashActive ? <FlashMessage message={flashMessage.message} variant={flashMessage.variant} /> : ""}
         <Routes>
           <Route path='/' element={<MainPage />} />
+          <Route path='/profile' element={<Profile user={user} />}>
+
+          </Route>
           <Route path='/user'>
-            <Route path='login' element={<Login />} />
-            <Route path='registration' element={<Registration />} />
+            <Route path='login' element={<Login setFlashMessage={setFlashMessage} />} />
+            <Route path='registration' element={<Registration setFlashMessage={setFlashMessage} />} />
           </Route>
           <Route path='/themes'>
             <Route path='new' element={<AddTheme />} />

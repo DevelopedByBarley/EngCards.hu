@@ -46,7 +46,7 @@ export function Navigation({ user, setUser }) {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-2">Profil</Dropdown.Item>
+                    <Dropdown.Item href="/profile">Profil</Dropdown.Item>
                     <Dropdown.Item href="/dashboard">Irányitópult</Dropdown.Item>
                     <Dropdown.Item href="/dashboard">Kártyák</Dropdown.Item>
                     <Dropdown.Item href="/dashboard">Témák</Dropdown.Item>
