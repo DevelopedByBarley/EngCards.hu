@@ -1,13 +1,39 @@
 import { useState } from "react";
-import { Button, ButtonGroup, Col, Row, Table } from "react-bootstrap";
+import { Button, ButtonGroup, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ShowModal } from "../modal/ShowModal";
+import { fetchAuthentication } from "../../helpers/AuthService";
 
 export const CardsIsLearned = ({ cards, setCards }) => {
   const [showModal, setShowModal] = useState(false);
   const [cardIdForDelete, setCardIdForDelete] = useState('');
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+
+
+  function resetWord(event) {
+    event.preventDefault();
+    const id = event.target.dataset.id;
+
+    fetchAuthentication
+      .post(`/cards/reset/${id}`)
+      .then((res) => {
+        const updatedCard = res.data.updatedCard;
+        const clonedCards = [...cards];
+        const index = clonedCards.findIndex((card) => card._id === updatedCard._id);
+        if (index !== -1) {
+          clonedCards[index].state = updatedCard.state;
+        }
+
+        clonedCards[index] = updatedCard;
+      
+
+        setCards(clonedCards);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
 
@@ -47,7 +73,7 @@ export const CardsIsLearned = ({ cards, setCards }) => {
                       }}>
                         Törlés
                       </Button>
-                      <Button variant='outline-primary' style={{ marginLeft: ".5rem" }} className='rounded-0'>
+                      <Button variant='outline-primary' style={{ marginLeft: ".5rem" }} className='rounded-0' onClick={resetWord} data-id={card._id}>
                         Visszaállitás
                       </Button>
 

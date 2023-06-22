@@ -38,7 +38,9 @@ const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-
+    if (!user) {
+        return res.status(403).json({ errorMessage: "Nem megfelelő email vagy jelszó!" });
+    }
     const passwordIsValid = await bcrypt.compare(password, user.password);
     if (!passwordIsValid) {
         return res.status(403).json({ errorMessage: "Nem megfelelő email vagy jelszó!" });

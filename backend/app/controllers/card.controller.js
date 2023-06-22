@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 
-const { index, getCardsByTheme, newCard, show, compareCard, deleteCard, updateCard } = require('../models/card.model');
+const { index, getCardsByTheme, newCard, show, compareCard, deleteCard, updateCard, resetCard } = require('../models/card.model');
 
 router.get('/', authenticateToken, index);
 router.get('/:id', authenticateToken, getCardsByTheme);
@@ -25,6 +25,7 @@ router.get('/single/:id', authenticateToken, show);
 
 router.post('/new/:id', authenticateToken, upload.single('image'), newCard);
 router.post('/compare/:id', authenticateToken, compareCard);
+router.post('/reset/:id', authenticateToken, resetCard)
 
 
 router.delete('/:id', authenticateToken, deleteCard);

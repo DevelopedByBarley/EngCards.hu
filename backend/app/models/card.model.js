@@ -56,7 +56,6 @@ const show = async (req, res) => {
     const card = await Card.findById(id);
     const sectionForSearch = "______";
 
-    console.log(card);
 
     if (card.sentence.includes(sectionForSearch)) {
       card.sentence = card.sentence.replace(/______/g, card.word);
@@ -151,6 +150,7 @@ const newCard = async (req, res) => {
 const compareCard = async (req, res) => {
   const id = req.params.id;
   const { word } = req.body;
+  const stateLimit = 7;
 
   try {
     const card = await Card.findById(id);
@@ -175,7 +175,7 @@ const compareCard = async (req, res) => {
 
     let expiresIn = formatDate(nextState);
 
-    if (nextState === 5) {
+    if (nextState === stateLimit) {
       await Card.findByIdAndUpdate(id, {
         isItLearned: true,
         isForRepeat: false
@@ -278,6 +278,18 @@ const updateCard = async (req, res) => {
 }
 
 
+const resetCard = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const expiresIn = formatDate(1);
+
+    const updatedCard = await Card.findOneAndUpdate({ _id: id }, { $set: { state: 1, expiresIn: expiresIn, isItLearned: false } }, { new: true });
+    res.json({ updatedCard: updatedCard });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 
 // GET CARDS FOR REPEAT BY USER
@@ -293,7 +305,6 @@ async function getCardsForRepeat(user) {
 }
 
 
-
 module.exports = {
   index,
   show,
@@ -301,5 +312,6 @@ module.exports = {
   compareCard,
   deleteCard,
   updateCard,
-  getCardsByTheme
+  getCardsByTheme,
+  resetCard
 };
