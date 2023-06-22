@@ -7,7 +7,7 @@ const path = require('path');
 const cors = require('cors');
 const connection = require('./config/database');
 const port = process.env.PORT;
-
+const cron = require('cron');
 
 const userController = require('./app/controllers/user.controller');
 const themeController = require('./app/controllers/theme.controller');
@@ -17,6 +17,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(__dirname + '/public'))
+
+
+const CronJob = cron.CronJob;
+
+const job = new CronJob('*/5 * * * * *', function() {
+  console.log('Hello learner! :)');
+});
+
+job.start();
 
 
 app.use('/user', userController);
