@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const path = require('path');
 const cors = require('cors');
 const connection = require('./config/database');
 const port = process.env.PORT;
@@ -16,8 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(__dirname + '/public'))
-
-console.log(__dirname + '/public');
 
 
 app.use('/user', userController);
