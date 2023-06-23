@@ -53,7 +53,7 @@ function App() {
           message: "",
           variant: ""
         });
-      }, 2000);
+      }, 2500);
 
       return () => {
         clearTimeout(timeout);

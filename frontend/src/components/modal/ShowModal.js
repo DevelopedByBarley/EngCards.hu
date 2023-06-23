@@ -2,7 +2,7 @@ import { Button, Modal } from "react-bootstrap";
 import { fetchAuthentication } from "../../helpers/AuthService";
 
 
-export function ShowModal({ showModal, handleClose, title, body, cardIdForDelete, setCards }) {
+export function ShowModal({ showModal, handleClose, title, body, cardIdForDelete, setCards, setFlashMessage }) {
 
 
   function action(event) {
@@ -15,6 +15,18 @@ export function ShowModal({ showModal, handleClose, title, body, cardIdForDelete
           const index = prev.findIndex(card => card._id === res.data.deletedCard._id)
           next.splice(index, 1)
           return next;
+        })
+        setFlashMessage({
+          isFlashActive: true,
+          message: res.data.message,
+          variant: "info"
+        })
+      })
+      .catch((err) => {
+        setFlashMessage({
+          isFlashActive: true,
+          message: err.response.data.errorMessage,
+          variant: "danger"
         })
       })
   }

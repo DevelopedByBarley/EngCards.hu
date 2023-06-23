@@ -22,6 +22,11 @@ export function AddCard({ setFlashMessage }) {
     fetchAuthentication.post(`/cards/new/${id}`, formData)
       .then(res => {
         navigate(`/cards/${id}`);
+        setFlashMessage({
+          isFlashActive: true,
+          message: res.data.message,
+          variant: "info"
+        })
       })
       .catch((err) => {
         console.log(err);

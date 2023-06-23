@@ -3,7 +3,7 @@ import { fetchAuthentication } from "../../helpers/AuthService";
 import { useNavigate } from "react-router-dom";
 
 
-export function DeleteThemeModal({ showThemeModal, handleThemeClose ,themeId }) {
+export function DeleteThemeModal({ showThemeModal, handleThemeClose, themeId, setFlashMessage }) {
   const navigate = useNavigate();
 
   console.log(themeId);
@@ -11,12 +11,16 @@ export function DeleteThemeModal({ showThemeModal, handleThemeClose ,themeId }) 
   function action(event) {
     event.preventDefault();
 
-   fetchAuthentication.delete(`/themes/${themeId}`)
+    fetchAuthentication.delete(`/themes/${themeId}`)
       .then(res => {
-        console.log(res);
+        setFlashMessage({
+          isFlashActive: true,
+          message: res.data.message,
+          variant: "info"
+        })
         navigate('/dashboard')
       })
-    
+
   }
 
   return (

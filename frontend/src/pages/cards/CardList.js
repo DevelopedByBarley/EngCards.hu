@@ -86,7 +86,7 @@ export function CardList({ setFlashMessage }) {
                 }}>
                   Törlés
                 </Button>
-                <DeleteThemeModal showThemeModal={showThemeModal} handleThemeClose={handleThemeClose} themeId={themeId} />
+                <DeleteThemeModal showThemeModal={showThemeModal} handleThemeClose={handleThemeClose} themeId={themeId} setFlashMessage={setFlashMessage} />
               </ButtonGroup>
             </Col>
           </Row>
@@ -119,7 +119,7 @@ export function CardList({ setFlashMessage }) {
           <Row>
             <Col className='mt-5 mb-5'>
               {parseInt(checked) === 1 ? (
-                <CardsForLearnTable cards={cards} setCards={setCards} />
+                <CardsForLearnTable cards={cards} setCards={setCards} setFlashMessage={setFlashMessage}/>
               ) : (
                 <CardsIsLearned cards={cards} setCards={setCards} setChecked={setChecked} />
               )}

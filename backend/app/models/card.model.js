@@ -139,7 +139,7 @@ const newCard = async (req, res) => {
     theme.cards.push(card);
     await theme.save();
 
-    res.status(200).json({ card: card });
+    res.status(200).json({ message: "Kártya sikeresen hozzáadva!", card: card });
   } catch (error) {
     res.status(400).json({ errorMessage: "Kártya hozzáadási probléma!" });
   }
@@ -218,7 +218,7 @@ const deleteCard = async (req, res) => {
     const theme = await Theme.findById(deletedCard.themeRefId);
     if (!theme) {
       return res.status(400).json({
-        errorMessage: 'A téma nem található!'
+        errorMessage: 'A kártya téma nem található!'
       });
     }
 
@@ -236,10 +236,12 @@ const deleteCard = async (req, res) => {
     await theme.save();
 
 
-    res.status(200).json({ deletedCard: deletedCard });
+    res.status(200).json({ message: "Kártya törlése sikeres!", deletedCard: deletedCard });
 
   } catch (error) {
-
+    return res.status(400).json({
+      errorMessage: 'Kártya törlése sikertelen!'
+    });
 
   }
 }

@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Col, Row, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { ShowModal } from "../modal/ShowModal";
 
-export const CardsForLearnTable = ({ cards, setCards }) => {
+export const CardsForLearnTable = ({ cards, setCards, setFlashMessage }) => {
   const [showModal, setShowModal] = useState(false);
   const [cardIdForDelete, setCardIdForDelete] = useState('');
   const handleClose = () => setShowModal(false);
@@ -50,7 +50,7 @@ export const CardsForLearnTable = ({ cards, setCards }) => {
                         Törlés
                       </Button>
 
-                      <ShowModal setCards={setCards} showModal={showModal} handleClose={handleClose} title={"Szó törlése"} body={"Biztosan törlöd ezt a szót?"} cardIdForDelete={cardIdForDelete} />
+                      <ShowModal setFlashMessage={setFlashMessage} setCards={setCards} showModal={showModal} handleClose={handleClose} title={"Szó törlése"} body={"Biztosan törlöd ezt a szót?"} cardIdForDelete={cardIdForDelete} />
                     </ButtonGroup>
                   </td>
 

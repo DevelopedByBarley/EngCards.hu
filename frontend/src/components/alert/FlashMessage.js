@@ -1,10 +1,12 @@
-
+import '../../public/css/FlashMessage.css';
 import Alert from 'react-bootstrap/Alert';
 
 export function FlashMessage({ message, variant }) {
   return (
-    <Alert className={`text-center text-light bg-${variant} fixed-top`} key={variant}>
-      {message}
-    </Alert>
-  )
+    <div id="flash-message">
+      <Alert className={`text-center text-light bg-${variant}`} key={variant}>
+        {message}
+      </Alert>
+    </div>
+  );
 }
