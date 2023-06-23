@@ -1,6 +1,6 @@
 #flash-message {
   position: fixed;
-  bottom: -100%;
+  top: -100%;
   opacity: 0;
   left: 0;
   animation: fadeInFlashMessage 2.5s forwards;
@@ -9,11 +9,11 @@
 
 @keyframes fadeInFlashMessage {
   0% {
-    bottom: -100%;
+    top: -100%;
   }
 
   10% {
-    bottom: 0;
+    top: 0;
   }
 
   35% {
@@ -21,14 +21,14 @@
   }
 
   80% {
-    bottom: 0;
+    top: 0;
   }
   75% {
     opacity: 1;
   }
   
   100% {
-    bottom: -100%;
+    top: -100%;
     opacity: 0;
   }
 }

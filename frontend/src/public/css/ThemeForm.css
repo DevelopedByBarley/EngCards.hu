@@ -1,0 +1,14 @@
+.theme-container {
+  min-height: 80vh;
+}
+
+.theme-form {
+  width: 100%;
+}
+
+@media(min-width: 768px) {
+  .theme-form {
+    width: 60%;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,12 @@
+
+.card-form {
+  width: 100%;  
+}
+
+
+@media(min-width: 1024px) {
+  .card-form {
+    width: 60%;
+    margin: 0 auto;
+  }
+}

@@ -10,7 +10,7 @@ export function ThemeCard({ theme }) {
             md={6}
             lg={3}
             style={{ background: `${theme.color}`, minHeight: "200px", cursor: "pointer" }}
-            className="mt-1 text-center border text-light rounded rounded-lg  d-flex align-items-center justify-content-center flex-column"
+            className="mt-2 text-center border text-light rounded rounded-lg  d-flex align-items-center justify-content-center flex-column"
         >
             <Link className='w-100' to={`${theme.cards.length !== 0 ? '/cards/' + theme._id : '/cards/new/' + theme._id}`} style={{textDecoration: "none"}}>
                 <div

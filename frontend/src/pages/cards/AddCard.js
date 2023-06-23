@@ -1,3 +1,5 @@
+import '../../public/css/CardForm.css';
+
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchAuthentication } from "../../helpers/AuthService";
 
@@ -56,21 +58,21 @@ export function AddCard({ setFlashMessage }) {
     <Container>
       <Row>
         <Col className="d-flex align-items-center justify-content-center" style={{ minHeight: "80vh" }}>
-          <Form className="w-100" onSubmit={sendNewCard} >
+          <Form className="card-form" onSubmit={sendNewCard} >
             <h1 className="display-4 text-center mb-5">Kártya hozzáadása</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Szó angolul</Form.Label>
-              <Form.Control type="text" placeholder="Szó angolul" name="word" />
+              <Form.Control type="text" placeholder="Szó angolul" name="word" required/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Forditás</Form.Label>
-              <Form.Control type="text" placeholder="Forditás" name="translate" />
+              <Form.Control type="text" placeholder="Forditás" name="translate" required/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Példa mondat</Form.Label>
-              <Form.Control type="text" placeholder="Példa mondat" name="sentence"/>
+              <Form.Control type="text" placeholder="Példa mondat" name="sentence" required/>
             </Form.Group>
 
             <Form.Group controlId="formFile" className="mb-3">

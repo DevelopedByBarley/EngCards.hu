@@ -10,8 +10,8 @@ import { Registration } from './pages/user/Registration';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import { CardList } from './pages/cards/CardList';
 import { MainPage } from './pages/MainPage';
-import { AddTheme } from './components/themes/AddTheme';
-import { ThemeUpdate } from './components/themes/ThemeUpdate';
+import { AddTheme } from './pages/themes/AddTheme';
+import { ThemeUpdate } from './pages/themes/ThemeUpdate';
 import { CardsForRepeat } from './pages/cards/CardsForReapeat'
 import { AddCard } from './pages/cards/AddCard';
 import { UpdateCard } from './pages/cards/UpdateCard';

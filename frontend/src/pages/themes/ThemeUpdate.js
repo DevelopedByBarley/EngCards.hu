@@ -29,8 +29,10 @@ export function ThemeUpdate() {
 
   return (
     <Row>
-      <Col>
-        <Form onSubmit={updateTheme}>
+      <Col className="theme-container d-flex align-items-center justify-content-center flex-column">
+        <h1 className="display-4 text-center mb-5">Téma Frissitése</h1>
+
+        <Form className="theme-form" onSubmit={updateTheme}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Név</Form.Label>
             <Form.Control type="text" placeholder="Téma neve" name='title' required />

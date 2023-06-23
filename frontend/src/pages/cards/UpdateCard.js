@@ -1,3 +1,5 @@
+import '../../public/css/CardForm.css';
+
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchAuthentication } from "../../helpers/AuthService";
 
@@ -58,7 +60,7 @@ export function UpdateCard({ setFlashMessage }) {
     <Container>
       <Row>
         <Col className="d-flex align-items-center justify-content-center" style={{ minHeight: "80vh" }}>
-          <Form className="w-100" onSubmit={updateCard} >
+          <Form className="card-form" onSubmit={updateCard} >
             <h1 className="display-4 text-center mb-5">Kártya szerkesztése</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Szó angolul</Form.Label>
