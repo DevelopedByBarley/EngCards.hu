@@ -7,7 +7,6 @@ const path = require('path');
 const cors = require('cors');
 const connection = require('./config/database');
 const port = process.env.PORT;
-const cron = require('cron');
 
 const userController = require('./app/controllers/user.controller');
 const themeController = require('./app/controllers/theme.controller');
@@ -19,14 +18,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static(__dirname + '/public'))
 
 
-const CronJob = cron.CronJob;
-
-const job = new CronJob('*/5 * * * * *', function() {
-  console.log('Hello learner! :)');
-});
-
-job.start();
-
 
 app.use('/user', userController);
 app.use('/themes', themeController);
@@ -34,9 +25,9 @@ app.use('/cards', cardController);
 
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.resolve(__dirname, '../', 'frontend', 'build')));
-    app.get('*', (req, res) => { res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')); });
-  }
+  app.use(express.static(path.resolve(__dirname, '../', 'frontend', 'build')));
+  app.get('*', (req, res) => { res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')); });
+}
 
 
 
@@ -45,5 +36,5 @@ connection();
 
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });

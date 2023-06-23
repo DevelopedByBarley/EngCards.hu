@@ -22,7 +22,7 @@ const index = async (req, res) => {
       cardsForRepeat: cardsForRepeat,
     });
   } catch (error) {
-    res.status(400).json({ message: "Cards finding error!" });
+    res.status(400).json({ errorMessage: "Cards finding error!" });
   }
 
 };
@@ -110,7 +110,7 @@ const newCard = async (req, res) => {
     })
 
     if (isWordExist) {
-      res.status(400).json({ errorMessage: "Ez az angol szó már létezik!" });
+      res.status(400).json({ errorMessage: "Ez az idegen szó már létezik!" });
       return;
     }
 
@@ -195,7 +195,7 @@ const compareCard = async (req, res) => {
       card: updatedCard,
     });
   } catch (error) {
-    res.status(400).json({ message: "Problem" });
+    res.status(400).json({ errorMessage: "Kártya összevetési hiba!" });
   }
 };
 
@@ -263,18 +263,24 @@ const updateCard = async (req, res) => {
     deleteImage(card.imageName);
   }
 
-  const updateCard = await Card.findOneAndUpdate({
-    word: word,
-    translate: translate.toLowerCase(),
-    sentence: replacedSentence,
-    expiresIn: card.expiresIn,
-    state: card.state,
-    imageName: fileName ? fileName : card.fileName,
-    themeRefId: card.themeRefId,
-    userRefId: user._id
-  })
+  try {
+    const updateCard = await Card.findOneAndUpdate({
+      word: word,
+      translate: translate.toLowerCase(),
+      sentence: replacedSentence,
+      expiresIn: card.expiresIn,
+      state: card.state,
+      imageName: fileName ? fileName : card.fileName,
+      themeRefId: card.themeRefId,
+      userRefId: user._id
+    })
 
-  res.status(200).json({ updateCard: updateCard });
+    res.status(200).json({ message: "Kárty frissitése sikeres!", updateCard: updateCard });
+  } catch (error) {
+    res.status(400).json({
+      errorMessage: "Kártya frissitése sikertelen!"
+    })
+  }
 }
 
 
@@ -284,9 +290,12 @@ const resetCard = async (req, res) => {
     const expiresIn = formatDate(1);
 
     const updatedCard = await Card.findOneAndUpdate({ _id: id }, { $set: { state: 1, expiresIn: expiresIn, isItLearned: false } }, { new: true });
-    res.json({ updatedCard: updatedCard });
+    res.status(200).json({ message: "Kártya sikeresen vissaállitva!", updatedCard: updatedCard });
   } catch (error) {
     console.log(error);
+    res.status(400).json({
+      errorMessage: "Kártya vissaállitása sikertelen!"
+    })
   }
 };
 

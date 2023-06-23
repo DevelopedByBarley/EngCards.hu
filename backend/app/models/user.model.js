@@ -50,7 +50,7 @@ const loginUser = async (req, res) => {
 
     const accessToken = generateAccessToken(userForToken);
     const refreshToken = generateRefreshToken(userForToken);
-    const oneDay = 24 * 60 * 60 * 1000; 
+    const oneDay = 24 * 60 * 60 * 1000;
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
@@ -66,9 +66,9 @@ const getMe = (req, res) => {
     const { user } = req.user
 
     if (user) {
-        res.status(200).json({ user: user, errorMessage: "Found User!" })
+        res.status(200).json({ user: user })
     } else {
-        res.status(400).json({ user: false, errorMessage: "Error finding user!" })
+        res.status(400).json({ user: false, errorMessage: "Nem található a felhasználó!" })
     }
 }
 

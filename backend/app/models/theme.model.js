@@ -4,7 +4,7 @@ const deleteImage = require('../helpers/deleteImage')
 
 const index = async (req, res) => {
   const user = req.user.user;
-  
+
   try {
     let themes = await findThemeByUserId(user)
 
@@ -25,7 +25,8 @@ const index = async (req, res) => {
       themes: themes
     });
   } catch (error) {
-    return 'Problem';
+    console.log(error);
+    res.status(400).json({ errorMessage: "Nem találtuk a user-t és a témákat!" })
   }
 };
 
@@ -66,12 +67,12 @@ const newTheme = async (req, res) => {
     await newTheme.save();
 
     return res.status(200).json({
-      message: "Theme created successfully!",
+      message: "Téma sikeresen létrehozva!",
       theme: newTheme
     })
   } catch (error) {
     return res.status(400).json({
-      message: "Theme creating problem!"
+      errorMessage: "Téma létrehozása sikertelen!"
     })
   }
 }
@@ -91,19 +92,19 @@ const deleteTheme = async (req, res) => {
         deleteImage(card.imageName);
       });
 
-      const deletedCards = await Card.deleteMany({
+      await Card.deleteMany({
         themeRefId: deleteTheme._id
       });
 
     }
 
     return res.status(200).json({
-      message: "Theme deleted successfully!",
+      message: "Téma törlése sikeres!",
       deleteTheme: deleteTheme
     });
   } catch (error) {
     return res.status(400).json({
-      message: "Error deleting theme: " + error.message
+      errorMessage: "Sikertelen téma létrehozás!"
     });
   }
 }
@@ -119,13 +120,13 @@ const updateTheme = async (req, res) => {
       color: color
     }, { new: true })
     return res.status(200).json({
-      message: "Theme created successfully!",
+      message: "Téma sikeresen frissitve!",
       theme: newTheme
     })
 
   } catch (error) {
     return res.status(400).json({
-      message: "Theme Update problem!"
+      errorMessage: "Téma frissitése sikertelen!"
     })
   }
 }
